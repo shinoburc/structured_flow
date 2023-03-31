@@ -72,3 +72,18 @@ model Role {
   name      String    @unique
   users User[]
 }
+
+model Queue {
+  id            String    @id @default(cuid())
+  name          String    @unique
+  transactions  QueueTransaction[]
+}
+
+model QueueTransaction {
+  id        String    @id @default(cuid())
+  name      String    @unique
+  queueId   String
+  queue     Queue     @relation(fields: [queueId], references: [id])
+  sequence  Int
+  enable    Boolean   @default(true)
+}
